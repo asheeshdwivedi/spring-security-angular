@@ -31,7 +31,7 @@ import java.util.Map;
  * Created by asheeshdwivedi on 1/15/16.
  */
 @RestController
-public class UserController {
+public class AuthController {
 
 
 
@@ -39,8 +39,8 @@ public class UserController {
     private SecurityConfiguration securityConfig;
 
 
-    @RequestMapping(path = "/user" ,method = RequestMethod.POST)
-    public com.example.model.UserDetails login(HttpServletResponse httpServletResponse)throws Exception {
+    @RequestMapping(path = "/getLoggedInUserDetails")
+    public com.example.model.UserDetails getLoggedInUserDetails(HttpServletResponse httpServletResponse)throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Object principal = authentication.getPrincipal();
         if (principal instanceof String && ((String) principal).equals("anonymousUser")) {
