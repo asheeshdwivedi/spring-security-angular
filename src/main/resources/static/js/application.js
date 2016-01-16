@@ -1,4 +1,4 @@
-var springSecurityAngular = angular.module('springSecurityAngular', ['ngRoute', 'ngResource']);
+var springSecurityAngular = angular.module('springSecurityAngular', ['ngRoute', 'ngResource','ui.grid' ,'ui.grid.selection', 'ui.grid.exporter']);
 
 // ROUTES
 springSecurityAngular.config(function ($routeProvider, $httpProvider, $provide) {
@@ -26,6 +26,10 @@ springSecurityAngular.config(function ($routeProvider, $httpProvider, $provide) 
                     return authService.logout();
                 }
             }
+        })
+        .when('/manageUser' ,{
+            controller: 'manageUser',
+            templateUrl: 'partials/manageUser.html',
         });
 
     $httpProvider.interceptors.push(function ($q, $rootScope, $location) {
@@ -79,6 +83,10 @@ springSecurityAngular.config(function ($routeProvider, $httpProvider, $provide) 
     $rootScope.isLoggedIn = function () {
         return $rootScope.user !== undefined;
     };
+
+    if(!$rootScope.user){
+        authService.getLoggedInUserDetails();
+    }
 
 
 });

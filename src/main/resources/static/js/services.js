@@ -26,7 +26,7 @@ springSecurityAngular.factory('authService', ['$http', "$q" ,"$rootScope", funct
                 );
         },
         getLoggedInUserDetails : function(){
-            return $http.post('/getLoggedInUserDetails')
+            return $http.get('/getLoggedInUserDetails')
                 .then(
                     function (response) {
                         $rootScope.user = response.data;
@@ -40,3 +40,43 @@ springSecurityAngular.factory('authService', ['$http', "$q" ,"$rootScope", funct
     }
 }]);
 
+springSecurityAngular.factory('userService', ['$http', "$q", function ($http, $q) {
+    return {
+        findAllUser: function () {
+            return $http.get("/findAllUser")
+                .then(
+                    function (response) {
+                        return response.data;
+                    },
+                    function (errResponse) {
+                        return $q.reject(errResponse);
+                    }
+            );
+
+        },
+
+        logout : function(){
+            return $http.post("/auth/logout")
+                .then(
+                    function (response) {
+                        delete $rootScope.user ;
+                    },
+                    function (errResponse) {
+                        return $q.reject(errResponse);
+                    }
+                );
+        },
+        getLoggedInUserDetails : function(){
+            return $http.get('/getLoggedInUserDetails')
+                .then(
+                    function (response) {
+                        $rootScope.user = response.data;
+                        return response.data;
+                    },
+                    function (errResponse) {
+                        return $q.reject(errResponse);
+                    }
+                );
+        }
+    }
+}]);

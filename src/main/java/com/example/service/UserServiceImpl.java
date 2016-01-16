@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Created by asheeshdwivedi on 1/15/16.
  */
@@ -46,6 +48,11 @@ public class UserServiceImpl implements UserService {
     @Transactional(propagation=Propagation.REQUIRED, readOnly=false)
     public void update(User entity) {
         userRepository.save(entity);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 
     @Override

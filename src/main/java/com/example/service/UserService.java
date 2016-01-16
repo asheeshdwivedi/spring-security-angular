@@ -4,6 +4,8 @@ package com.example.service;
 import com.example.persistence.entity.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.util.List;
+
 /**
  * Created by asheeshdwivedi on 1/15/16.
  */
@@ -18,5 +20,7 @@ public interface UserService extends UserDetailsService{
     public User create(final User entity);
 
     public void update(final User entity);
+
+    public List<User> findAll();
 
 }
