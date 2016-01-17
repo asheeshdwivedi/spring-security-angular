@@ -1,0 +1,30 @@
+<header>
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#/">Spring Security Angular</a>
+            </div>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#/">Home</a></li>
+                <li ng-show="!isLoggedIn()"><a href="#/login">Login</a></li>
+                <li class="dropdown" ng-show="hasRole('ROLE_USER')">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Report <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Report 1</a></li>
+                        <li><a href="#">Report 2</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown" ng-show="hasRole('ROLE_ADMIN')">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#/createUser">Create User</a></li>
+                        <li><a href="#/manageUser">Manage User</a></li>
+                        <li><a href="#">Job Scheduler</a></li>
+                    </ul>
+                </li>
+                <li ng-show="isLoggedIn()"><a href="#/logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>

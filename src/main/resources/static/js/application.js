@@ -50,7 +50,7 @@ springSecurityAngular.config(function ($routeProvider, $httpProvider, $provide) 
         };
 
 
-    $httpProvider.interceptors.push(function ($q, $rootScope, $location, messageService) {
+    $httpProvider.interceptors.push(function ($q, $rootScope, $location , messageService) {
             return {
                 'request': function (request) {
                     messageService.clearError();
@@ -65,6 +65,10 @@ springSecurityAngular.config(function ($routeProvider, $httpProvider, $provide) 
                         case 401:
                         {
                             $location.path("/login");
+                            if($rootScope.user){
+                                delete $rootScope.user
+                            }
+                            break;
                         }
                         case 403:
                         {
@@ -80,9 +84,6 @@ springSecurityAngular.config(function ($routeProvider, $httpProvider, $provide) 
 
                             break;
                         }
-                    }
-                    if (status == 401) {
-
                     }
                     return $q.reject(rejection);
                 }

@@ -62,7 +62,7 @@ springSecurityAngular.controller('manageUser', ['$scope' ,'userService' , functi
             }
           ).catch(
             function(data){
-                $log.error("Error While Loging "+ data);
+                console.error("Error While Loging "+ data);
             }
         );
 }]);

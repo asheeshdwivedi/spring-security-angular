@@ -50,7 +50,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .successHandler(authenticationSuccess) //sets status to 200 OK
                 .failureHandler(authenticationFailure).and().httpBasic().and().authorizeRequests()
-                 .antMatchers("/index.html", "/","/login","/auth/logout","/partials/login.html","/partials/common/*").permitAll().anyRequest().authenticated();
+                 .antMatchers("/index.html", "/","/login","/auth/*","/partials/login.html","/partials/common/*").permitAll().anyRequest().authenticated();
     }
 
     @Autowired
