@@ -1,27 +1,14 @@
-springSecurityAngular.controller('authController', ['$scope' ,'$location','$log' , 'authService', function($scope ,$location ,$log ,authService) {
+springSecurityAngular.controller('authController', ['$scope' ,'$location','messageService' , 'authService', function($scope ,$location ,messageService ,authService) {
 
     $scope.login = function (){
         authService.login($scope.username, $scope.password)
-            .then(
-                function(){
+            .then(function(){
                     $location.path("/");
-                },
-                function(data){
-                     $log.error("Error While Loging "+ data);
-                }
-            );
-    }
+                })
+            .catch(function(data){
+                    messageService.error("LOGIN_FAILURE", "The email and password you entered don't match");
+                });
 
-    $scope.logout = function(){
-        authService.logout()
-            .then(
-                function(){
-                    $location.path("/login");
-                },
-                function(data){
-                    $log.error("Error While Loging "+ data);
-                }
-            );;
     }
 
 }]);
@@ -70,12 +57,16 @@ springSecurityAngular.controller('manageUser', ['$scope' ,'userService' , functi
 
        }
         userService.findAllUser()
-          .then(
-                function(data){
+          .then(function(data){
                     $scope.gridOptions.data = data;
-                },
-                function(data){
-                    $log.error("Error While Loging "+ data);
-                }
-           );
+            }
+          ).catch(
+            function(data){
+                $log.error("Error While Loging "+ data);
+            }
+        );
+}]);
+
+springSecurityAngular.controller('createUser', ['$scope' , function($scope) {
+ console.log("............");
 }]);

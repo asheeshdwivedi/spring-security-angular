@@ -1,4 +1,4 @@
-var springSecurityAngular = angular.module('springSecurityAngular', ['ngRoute', 'ngResource','ui.grid' ,'ui.grid.selection', 'ui.grid.exporter']);
+var springSecurityAngular = angular.module('springSecurityAngular', ['ngRoute', 'ngResource', 'ui.grid', 'ui.grid.selection', 'ui.grid.exporter']);
 
 // ROUTES
 springSecurityAngular.config(function ($routeProvider, $httpProvider, $provide) {
@@ -8,9 +8,7 @@ springSecurityAngular.config(function ($routeProvider, $httpProvider, $provide) 
             templateUrl: 'partials/home.html',
             controller: 'homeController',
             resolve: {
-                load: function (authService, $rootScope) {
-                    return authService.getLoggedInUserDetails();
-                }
+                user: getLoggedInUserDetails
             }
         })
         .when('/login', {
@@ -22,33 +20,69 @@ springSecurityAngular.config(function ($routeProvider, $httpProvider, $provide) 
             controller: 'authController',
             templateUrl: 'partials/login.html',
             resolve: {
-                load: function (authService, $rootScope) {
-                    return authService.logout();
-                }
+                clear: clear
             }
         })
-        .when('/manageUser' ,{
+        .when('/manageUser', {
             controller: 'manageUser',
             templateUrl: 'partials/manageUser.html',
+        })
+        .when('/createUser', {
+            controller: 'createUser',
+            templateUrl: 'partials/createUser.html',
         });
 
-    $httpProvider.interceptors.push(function ($q, $rootScope, $location) {
+       function getLoggedInUserDetails($rootScope, userService) {
+                userService.getLoggedInUserDetails()
+                    .then(function (user) {
+                        $rootScope.user = user;
+                    });
+        };
+
+        function clear($rootScope , authService) {
+            authService.logout()
+                .then(function(){
+                    delete $rootScope.user;
+                }).catch(function(data){
+                messageService.error("LOGOUT_FAILURE", "We were unable to log you out, please try again.");
+            });
+
+        };
+
+
+    $httpProvider.interceptors.push(function ($q, $rootScope, $location, messageService) {
             return {
-                response: function (response) {
-                    if (response.status === 401) {
-                        console.log("Response 401");
-                    }
-                    return response || $q.when(response);
+                'request': function (request) {
+                    messageService.clearError();
+                    return request;
                 },
                 'responseError': function (rejection) {
-                    var status = rejection.status;
-                    var config = rejection.config;
-                    var method = config.method;
-                    var url = config.url;
+                    switch (rejection.status) {
+                        case 400:
+                        {
+                            break;
+                        }
+                        case 401:
+                        {
+                            $location.path("/login");
+                        }
+                        case 403:
+                        {
+                            break;
+                        }
+                        case 500:
+                        {
+                            break;
+                        }
+                        default :
+                        {
+                            messageService.error("UNKNOWN_ERROR", "An error has occurred, please try again.");
+
+                            break;
+                        }
+                    }
                     if (status == 401) {
-                        $location.path("/login");
-                    } else {
-                        $rootScope.error = method + " on " + url + " failed with status " + status;
+
                     }
                     return $q.reject(rejection);
                 }
@@ -68,7 +102,7 @@ springSecurityAngular.config(function ($routeProvider, $httpProvider, $provide) 
         return $delegate;
     }]);
 
-}).run(function ($rootScope, $location, authService) {
+}).run(function ($rootScope, $location, userService) {
 
     $rootScope.hasRole = function (role) {
         if ($rootScope.user === undefined) {
@@ -84,8 +118,11 @@ springSecurityAngular.config(function ($routeProvider, $httpProvider, $provide) 
         return $rootScope.user !== undefined;
     };
 
-    if(!$rootScope.user){
-        authService.getLoggedInUserDetails();
+    if (!$rootScope.user) {
+        userService.getLoggedInUserDetails()
+            .then(function (user) {
+                $rootScope.user = user;
+            });
     }
 
 
