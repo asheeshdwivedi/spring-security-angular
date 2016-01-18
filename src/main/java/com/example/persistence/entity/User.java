@@ -17,7 +17,7 @@ import javax.persistence.ManyToMany;
  */
 
 @Entity
-public class User extends AbstractEntity<User> {
+public class User extends AbstractTransactionalEntity<User> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,6 +30,14 @@ public class User extends AbstractEntity<User> {
     @Column(nullable = false)
     private String password;
 
+
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(// @formatter:off
         joinColumns =        { @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID") }, 
@@ -41,16 +49,14 @@ public class User extends AbstractEntity<User> {
         super(User.class);
     }
 
-    public User(final String email, final String password, final Set<Authority> authorities) {
+    public User(final String email, final String password, final Set<Authority> authorities , String firstName , String lastName) {
         super(User.class);
 
         this.email = email;
         this.password = password;
         this.authorities = authorities;
-    }
-
-    public User(final String email, final String password, final Set<Authority> authorities, final String uuidToSet) {
-        this(email, password, authorities);
+        this.firstName=firstName;
+        this.lastName = lastName;
     }
 
 
@@ -89,6 +95,21 @@ public class User extends AbstractEntity<User> {
         this.authorities = authorities;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
 
 }

@@ -28,25 +28,12 @@ public abstract class AbstractEntity<E extends Entity<E>> implements Entity<E> {
     private Class<E> type;
 
 
-    @Version
-    private Integer version;
-
 
     protected AbstractEntity(Class<E> type) {
         Assert.notNull(type);
         this.type = type;
     }
 
-    @Override
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
-
-
-    @Override
-    public Integer getVersion() {
-        return version;
-    }
 
 
     @Override

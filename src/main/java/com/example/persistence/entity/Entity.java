@@ -10,9 +10,6 @@ import java.sql.Timestamp;
 
 public interface Entity<E extends Entity<E>> extends Serializable {
 
-    void setVersion(Integer version);
-
-    Integer getVersion();
 
     <T extends Serializable> T getId();
 
