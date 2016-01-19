@@ -6,11 +6,13 @@ import java.util.Map;
 /**
  * Created by asheeshdwivedi on 1/15/16.
  */
-public final class UserDetails {
+public  class UserDetails {
 
-    private final String userName;
+    private String userName;
 
-    private final Map<String ,Boolean> roles;
+    private Map<String ,Boolean> roles;
+
+    public UserDetails(){}
 
     public UserDetails(String userName , Map<String ,Boolean> roles) {
         this.roles = roles;

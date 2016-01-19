@@ -31,7 +31,7 @@ import java.util.Map;
  * Created by asheeshdwivedi on 1/15/16.
  */
 @RestController
-public class AuthController {
+public class AuthController extends BaseController{
 
 
 

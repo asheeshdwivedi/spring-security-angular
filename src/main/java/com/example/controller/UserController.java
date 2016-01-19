@@ -17,7 +17,7 @@ import java.util.List;
  * Created by asheeshdwivedi on 1/16/16.
  */
 @RestController
-public class UserController {
+public class UserController extends BaseController{
 
     @Autowired
     private UserService userService;
