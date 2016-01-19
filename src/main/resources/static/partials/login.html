@@ -9,7 +9,7 @@
 			<div class="form-group" ng-class="{true:'has-error' , false : 'has-success'} [loginForm.email.$invalid && !loginForm.email.$pristine]">
 				<label for="email"  class="col-sm-3 control-label">Email:</label>
 				<div class="col-sm-9">
-					<input id="username" ng-model="username" name="email" type="email" class="form-control" required />
+					<input id="username" ng-model="username" name="email" type="email" class="form-control" required value="sathish.257216@gmail.com"/>
 					<p ng-show="loginForm.email.$invalid && !loginForm.email.$pristine" class="help-block">Enter a valid email.</p>
 				</div>
 			</div>
@@ -22,6 +22,7 @@
 			<div class="form-group">
 				<div class="col-sm-9 col-sm-offset-3">
 					<input type="submit" value="Log In" class="btn btn-primary" ng-click="login()" ng-disabled="loginForm.$invalid"/>
+					<input type="button" value="Forgot password" class="btn btn-primary" ng-click="forgotPassword()"/>
 				</div>
 			</div>
 		</form>

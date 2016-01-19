@@ -2,8 +2,10 @@ package com.example.controller;
 
 import com.example.config.SecurityConfiguration;
 import com.example.security.SecurityUtil;
+import com.example.service.SmtpMailSender;
 import com.google.common.base.Functions;
 import com.google.common.collect.Iterables;
+import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,12 +34,11 @@ import java.util.Map;
  */
 @RestController
 public class AuthController extends BaseController{
-
-
-
     @Autowired
     private SecurityConfiguration securityConfig;
 
+    @Autowired
+    private SmtpMailSender smtpMailSender;
 
     @RequestMapping(path = "/getLoggedInUserDetails")
     public com.example.model.UserDetails getLoggedInUserDetails(HttpServletResponse httpServletResponse)throws Exception {
@@ -52,6 +53,18 @@ public class AuthController extends BaseController{
         return new com.example.model.UserDetails(userDetails.getUsername(), SecurityUtil.convertToRoles(userDetails.getAuthorities()));
     }
 
+    @RequestMapping(path="/forgotPassword", method = RequestMethod.POST)
+    public void sendForgotPasswordMail(HttpServletRequest request) {
+        String email = request.getParameter("username");
+        String subject = request.getParameter("subject");
+        String mailbody = request.getParameter("mailbody");
+        System.out.println("email " + email + " :: " + subject + " :: " + mailbody);
+        try {
+            smtpMailSender.send(email,subject,mailbody);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @RequestMapping(path="/auth/logout", method = RequestMethod.POST)
     public void logout(HttpServletRequest request, HttpServletResponse response) {
