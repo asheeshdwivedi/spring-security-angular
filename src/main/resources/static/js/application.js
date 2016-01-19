@@ -1,56 +1,62 @@
-var springSecurityAngular = angular.module('springSecurityAngular', ['ngRoute', 'ngResource', 'ui.grid', 'ui.grid.selection', 'ui.grid.exporter']);
+var springSecurityAngular = angular.module('springSecurityAngular', ['ui.router', 'ngResource', 'ui.grid', 'ui.grid.selection', 'ui.grid.exporter']);
 
 // ROUTES
-springSecurityAngular.config(function ($routeProvider, $httpProvider, $provide) {
+springSecurityAngular.config(function ($stateProvider, $httpProvider, $provide ,$urlRouterProvider) {
 
-    $routeProvider
-        .when('/', {
-            templateUrl: 'partials/home.html',
+    $urlRouterProvider.otherwise( '/' );
+
+    $stateProvider
+        .state('home', {
+            url: '/',
             controller: 'homeController',
+            templateUrl: 'partials/home.html',
             resolve: {
-                user: getLoggedInUserDetails
-            }
+                user: ['$rootScope', 'userService', function ($rootScope, userService) {
+                    userService.getLoggedInUserDetails()
+                        .then(function (user) {
+                            $rootScope.user = user;
+                        });
+                }]
+            },
+            data: {pageTitle: 'Home'}
         })
-        .when('/login', {
-            templateUrl: 'partials/login.html',
-            controller: 'authController'
-        })
-
-        .when('/logout', {
+        .state('login', {
+            url: '/login',
             controller: 'authController',
             templateUrl: 'partials/login.html',
+            data: {pageTitle: 'Login'}
+
+        })
+        .state('logout' ,{
+            url: '/logout',
+            templateUrl: 'partials/login.html',
+            controller: 'authController',
             resolve: {
-                clear: clear
-            }
+                clear: ['$rootScope' ,'authService' , function($rootScope , authService){
+                    authService.logout()
+                        .then(function(){
+                            delete $rootScope.user;
+                        }).catch(function(data){
+                        messageService.error("LOGOUT_FAILURE", "We were unable to log you out, please try again.");
+                    });
+                }]
+            },
+            data: {pageTitle: 'Login'}
         })
-        .when('/manageUser', {
-            controller: 'manageUser',
+        .state('manageUser' ,{
+            url: '/manageUser',
             templateUrl: 'partials/manageUser.html',
+            controller: 'manageUser',
+            data: {pageTitle: 'Manage User'}
         })
-        .when('/createUser', {
-            controller: 'createUser',
+        .state('createUser' ,{
+            url : '/createUser',
             templateUrl: 'partials/createUser.html',
+            controller: 'createUser',
+            data: {pageTitle: 'Create User'}
         });
 
-       function getLoggedInUserDetails($rootScope, userService) {
-                userService.getLoggedInUserDetails()
-                    .then(function (user) {
-                        $rootScope.user = user;
-                    });
-        };
-
-        function clear($rootScope , authService) {
-            authService.logout()
-                .then(function(){
-                    delete $rootScope.user;
-                }).catch(function(data){
-                messageService.error("LOGOUT_FAILURE", "We were unable to log you out, please try again.");
-            });
-
-        };
-
-
-    $httpProvider.interceptors.push(function ($q, $rootScope, $location , messageService) {
+    $httpProvider.interceptors.push(function ($q, $rootScope , messageService ,$injector) {
             return {
                 'request': function (request) {
                     messageService.clearError();
@@ -64,7 +70,7 @@ springSecurityAngular.config(function ($routeProvider, $httpProvider, $provide) 
                         }
                         case 401:
                         {
-                            $location.path("/login");
+                            $injector.get('$state').go("login");
                             if($rootScope.user){
                                 delete $rootScope.user
                             }
@@ -103,7 +109,7 @@ springSecurityAngular.config(function ($routeProvider, $httpProvider, $provide) 
         return $delegate;
     }]);
 
-}).run(function ($rootScope, $location, userService) {
+}).run(function ($rootScope ,userService) {
 
     $rootScope.hasRole = function (role) {
         if ($rootScope.user === undefined) {
@@ -128,6 +134,7 @@ springSecurityAngular.config(function ($routeProvider, $httpProvider, $provide) 
 
 
 });
+
 
 
 

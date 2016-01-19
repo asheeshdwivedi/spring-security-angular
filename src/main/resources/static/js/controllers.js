@@ -1,9 +1,9 @@
-springSecurityAngular.controller('authController', ['$scope' ,'$location','messageService' , 'authService', function($scope ,$location ,messageService ,authService) {
+springSecurityAngular.controller('authController', ['$scope' ,'$state','messageService' , 'authService', function($scope ,$state ,messageService ,authService) {
 
     $scope.login = function (){
         authService.login($scope.username, $scope.password)
             .then(function(){
-                    $location.path("/");
+                   $state.go("home");
                 })
             .catch(function(data){
                     messageService.error("LOGIN_FAILURE", "The email and password you entered don't match");
@@ -17,12 +17,26 @@ springSecurityAngular.controller('homeController', ['$scope' , function($scope) 
 
 }]);
 
+springSecurityAngular.controller( 'AppCtrl',['$scope' , function AppCtrl ($scope) {
+    $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
+        if ( angular.isDefined( toState.data.pageTitle ) ) {
+            $scope.pageTitle = toState.data.pageTitle + ' | Spring Security Angular' ;
+        }
+    });
+}]);
+
 springSecurityAngular.controller('manageUser', ['$scope' ,'userService' , function($scope , userService) {
        $scope.gridOptions = {
            columnDefs: [
                { field: 'id' },
                { field: 'email' },
-               { field: 'password'}
+               { field: 'password'},
+               { field: 'firstName'},
+               { field: 'lastName'},
+               { field: 'createdBy'},
+               { field: 'createdAt'},
+               { field: 'updatedBy'},
+               { field: 'updatedAt'},
            ],
            enableGridMenu: true,
 
