@@ -5,8 +5,10 @@ import com.example.persistence.entity.Authority;
 import com.example.persistence.entity.User;
 import com.google.common.collect.Sets;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
@@ -22,6 +24,9 @@ public class UserServiceTest extends AbstractTest {
 
     @Autowired
     private AuthorityService authorityService;
+
+    @Before
+    public void setUp(){super.setUp();}
 
 
     @Test
