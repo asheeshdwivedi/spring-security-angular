@@ -1,11 +1,11 @@
 'use strict';
 
-springSecurityAngular.service('userService', ['$http', "$q", function ($http, $q) {
+springSecurityAngular.service('userService', ['$http', "$q",'propertiesConstant' , function ($http, $q ,propertiesConstant) {
 
     this.findAllUser = function  () {
         var d = $q.defer();
 
-        $http.get("/findAllUser")
+        $http.get(propertiesConstant.URL_PRFIX + "/findAllUser")
             .success(function (data, status, headers, config) {
                 d.resolve(data);
             })
@@ -19,7 +19,7 @@ springSecurityAngular.service('userService', ['$http', "$q", function ($http, $q
     this.getLoggedInUserDetails = function getLoggedInUserDetails() {
         var d = $q.defer();
 
-        $http.get("/getLoggedInUserDetails")
+        $http.get(propertiesConstant.URL_PRFIX + "/getLoggedInUserDetails")
             .success(function (data, status, headers, config) {
                 d.resolve(data);
             })

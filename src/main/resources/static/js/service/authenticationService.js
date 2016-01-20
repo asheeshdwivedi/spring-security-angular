@@ -1,11 +1,11 @@
 'use strict';
 
-springSecurityAngular.service('authService', ['$http', "$q", "$rootScope", function ($http, $q, $rootScope) {
+springSecurityAngular.service('authService', ['$http', "$q", "$rootScope" ,'propertiesConstant', function ($http, $q, $rootScope ,propertiesConstant) {
 
     this.login = function (username, password) {
         var d = $q.defer();
 
-        $http.post("/login", 'username=' + username + '&password=' + password, {
+        $http.post(propertiesConstant.URL_PRFIX +"/login", 'username=' + username + '&password=' + password, {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             })
             .success(function (data, status, headers, config) {
@@ -19,7 +19,7 @@ springSecurityAngular.service('authService', ['$http', "$q", "$rootScope", funct
 
     this.logout = function () {
         var d = $q.defer();
-        $http.post("/auth/logout")
+        $http.post(propertiesConstant.URL_PRFIX + "/auth/logout")
             .success(function () {
                 d.resolve();
             })
