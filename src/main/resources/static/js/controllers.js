@@ -105,7 +105,7 @@ springSecurityAngular.controller('resetPassword', ['$scope','$state' ,'$statePar
                            $state.go("login");
                         })
                     .catch(function(data){
-                            messageService.error("Reset Password failed");
+                            messageService.error("Reset_Password_failed" ,"Could not able to reset password, Sorry");
                         });
         }
 

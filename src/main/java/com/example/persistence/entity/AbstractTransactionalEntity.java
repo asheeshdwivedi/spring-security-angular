@@ -108,8 +108,14 @@ public abstract class AbstractTransactionalEntity<E extends TransactionalEntity<
     @PreUpdate
     public void beforeUpdate() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-        String username = userDetails.getUsername();
+
+        Object object = authentication.getPrincipal();
+        String username = null;
+        if(object instanceof String){
+             username = (String) object;
+        }else{
+             username = ((UserDetails)object).getUsername();
+        }
         if (username == null) {
             throw new IllegalArgumentException(
                     "Cannot update a TransactionalEntity without a username "
