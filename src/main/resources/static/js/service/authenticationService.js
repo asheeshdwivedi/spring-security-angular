@@ -16,7 +16,20 @@ springSecurityAngular.service('authService', ['$http', "$q", "$rootScope" ,'prop
             })
         return d.promise;
     };
+    this.forgotPassword = function (username) {
+            var d = $q.defer();
 
+            $http.post(propertiesConstant.URL_PRFIX +"/send-mail/"+username+"/", 'wait=true', {
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                })
+                .success(function (data, status, headers, config) {
+                    d.resolve(data);
+                })
+                .error(function () {
+                    d.reject();
+                })
+            return d.promise;
+        };
     this.logout = function () {
         var d = $q.defer();
         $http.post(propertiesConstant.URL_PRFIX + "/auth/logout")

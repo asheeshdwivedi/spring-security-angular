@@ -10,18 +10,6 @@ springSecurityAngular.controller('authController', ['$scope' ,'$state','messageS
                 });
 
     }
-
-    $scope.forgotPassword = function (){
-            authService.forgotPassword($scope.username)
-                .then(function(){
-                       messageService.error("Mail Sent");
-                    })
-                .catch(function(data){
-                        messageService.error("Not able to send mail");
-                    });
-
-        }
-
 }]);
 
 springSecurityAngular.controller('homeController', ['$scope' , function($scope) {
@@ -93,5 +81,22 @@ springSecurityAngular.controller('manageUser', ['$scope' ,'userService' , functi
 }]);
 
 springSecurityAngular.controller('createUser', ['$scope' , function($scope) {
+ console.log("............");
+}]);
+
+springSecurityAngular.controller('forgotPassword', ['$scope' ,'messageService' , 'authService', function($scope, messageService, authService) {
+    $scope.forgotPassword = function (){
+        authService.forgotPassword($scope.username)
+            .then(function(){
+                   messageService.error("Mail Sent");
+                })
+            .catch(function(data){
+                    messageService.error("Not able to send mail");
+                });
+
+    }
+}]);
+
+springSecurityAngular.controller('resetPassword', ['$scope' , function($scope) {
  console.log("............");
 }]);

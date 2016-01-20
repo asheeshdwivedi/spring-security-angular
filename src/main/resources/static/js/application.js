@@ -18,7 +18,8 @@ springSecurityAngular.config(function ($stateProvider, $httpProvider, $provide ,
                         });
                 }]
             },
-            data: {pageTitle: 'Home'}
+            data: {pageTitle: 'Home'},
+            protected:true
         })
         .state('login', {
             url: '/login',
@@ -41,19 +42,36 @@ springSecurityAngular.config(function ($stateProvider, $httpProvider, $provide ,
                     });
                 }]
             },
-            data: {pageTitle: 'Login'}
+            data: {pageTitle: 'Login'},
+            protected:true
         })
         .state('manageUser' ,{
             url: '/manageUser',
             templateUrl: 'partials/manageUser.html',
             controller: 'manageUser',
-            data: {pageTitle: 'Manage User'}
+            data: {pageTitle: 'Manage User'},
+            protected:true
         })
         .state('createUser' ,{
             url : '/createUser',
             templateUrl: 'partials/createUser.html',
             controller: 'createUser',
-            data: {pageTitle: 'Create User'}
+            data: {pageTitle: 'Create User'},
+            protected:true
+        })
+        .state('forgotPassword', {
+            url: '/forgotPassword',
+            controller: 'forgotPassword',
+            templateUrl: 'partials/forgotPassword.html',
+            data: {pageTitle: 'Forgot Password'},
+            protected:false
+        })
+        .state('resetPassword', {
+            url: '/resetPassword',
+            controller: 'resetPassword',
+            templateUrl: 'partials/resetPassword.html',
+            data: {pageTitle: 'Reset Password'},
+            protected:false
         });
 
     $httpProvider.interceptors.push(function ($q, $rootScope , messageService ,$injector) {
@@ -110,7 +128,19 @@ springSecurityAngular.config(function ($stateProvider, $httpProvider, $provide ,
     }]);
 
 }).run(function ($rootScope ,userService) {
-
+    $rootScope.$on('$stateChangeStart', function(event, next) {
+        console.log("next.protected  ",next.protected);
+        if (next.protected) {
+            if (!$rootScope.user) {
+                  userService.getLoggedInUserDetails()
+                      .then(function (user) {
+                          $rootScope.user = user;
+                      });
+            }
+            console.log("not logged in");
+            event.preventDefault();
+        }
+    });
     $rootScope.hasRole = function (role) {
         if ($rootScope.user === undefined) {
             return false;
@@ -125,12 +155,7 @@ springSecurityAngular.config(function ($stateProvider, $httpProvider, $provide ,
         return $rootScope.user !== undefined;
     };
 
-    if (!$rootScope.user) {
-        userService.getLoggedInUserDetails()
-            .then(function (user) {
-                $rootScope.user = user;
-            });
-    }
+
 
 
 });
