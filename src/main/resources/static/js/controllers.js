@@ -99,8 +99,8 @@ springSecurityAngular.controller('forgotPassword', ['$scope' ,'messageService' ,
 
 springSecurityAngular.controller('resetPassword', ['$scope','$state' ,'messageService' , 'authService', function($scope, $state, messageService, authService) {
     $scope.resetPassword= function () {
-        console.log("............",    getUrlVars()["email"]);
-        authService.resetPassword(getUrlVars()["email"], $scope.password, $scope.confirmPass)
+        console.log("............",    getUrlVars()["email"], $scope.password);
+        authService.resetPassword(getUrlVars()["email"], $scope.password)
                     .then(function(){
                            $state.go("login");
                         })

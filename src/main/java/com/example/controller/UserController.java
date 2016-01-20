@@ -31,8 +31,13 @@ public class UserController extends BaseController{
     }
 
     @RequestMapping(path = "/resetPassword", method = RequestMethod.POST)
-    public void getLoggedInUserDetails(HttpServletRequest request, HttpServletResponse response)throws Exception {
-        System.out.println("request"+request.getParameter("username"));
+    public void updatePassword(HttpServletRequest request, HttpServletResponse response)throws Exception {
+        String emailId = request.getParameter("username");
+        String password = request.getParameter("password");
+        User user = userService.findByEmail(emailId);
+        System.out.println("request "+emailId+" :: "+password+ " ::: "+user.getEmail()+ ":::  "+user.getPassword());
+        user.setPassword(password);
+        userService.update(user);
     }
 
 }

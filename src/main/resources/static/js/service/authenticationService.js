@@ -30,9 +30,9 @@ springSecurityAngular.service('authService', ['$http', "$q", "$rootScope" ,'prop
                 })
             return d.promise;
     };
-    this.resetPassword = function (username, password, confirmPass) {
+    this.resetPassword = function (username, password) {
              var d = $q.defer();
-
+               console.log("username--- ",username, password)
              $http.post(propertiesConstant.URL_PRFIX +"/resetPassword", "username="+username+"&password="+password, {
                      headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                  })
