@@ -8,8 +8,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
@@ -28,6 +30,9 @@ public class UserController extends BaseController{
         return userService.findAll();
     }
 
-
+    @RequestMapping(path = "/resetPassword", method = RequestMethod.POST)
+    public void getLoggedInUserDetails(HttpServletRequest request, HttpServletResponse response)throws Exception {
+        System.out.println("request"+request.getParameter("username"));
+    }
 
 }

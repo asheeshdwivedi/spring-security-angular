@@ -97,6 +97,23 @@ springSecurityAngular.controller('forgotPassword', ['$scope' ,'messageService' ,
     }
 }]);
 
-springSecurityAngular.controller('resetPassword', ['$scope' , function($scope) {
- console.log("............");
+springSecurityAngular.controller('resetPassword', ['$scope','$state' ,'messageService' , 'authService', function($scope, $state, messageService, authService) {
+    $scope.resetPassword= function () {
+        console.log("............",    getUrlVars()["email"]);
+        authService.resetPassword(getUrlVars()["email"], $scope.password, $scope.confirmPass)
+                    .then(function(){
+                           $state.go("login");
+                        })
+                    .catch(function(data){
+                            messageService.error("Reset Password failed");
+                        });
+    }
+   var getUrlVars = function() {
+       var vars = {};
+       var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,
+       function(m,key,value) {
+         vars[key] = value;
+       });
+       return vars;
+     }
 }]);

@@ -29,7 +29,21 @@ springSecurityAngular.service('authService', ['$http', "$q", "$rootScope" ,'prop
                     d.reject();
                 })
             return d.promise;
-        };
+    };
+    this.resetPassword = function (username, password, confirmPass) {
+             var d = $q.defer();
+
+             $http.post(propertiesConstant.URL_PRFIX +"/resetPassword", "username="+username+"&password="+password, {
+                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                 })
+                 .success(function (data, status, headers, config) {
+                     d.resolve(data);
+                 })
+                 .error(function () {
+                     d.reject();
+                 })
+             return d.promise;
+    };
     this.logout = function () {
         var d = $q.defer();
         $http.post(propertiesConstant.URL_PRFIX + "/auth/logout")
