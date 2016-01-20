@@ -2,31 +2,18 @@ package com.example.controller;
 
 import com.example.config.SecurityConfiguration;
 import com.example.security.SecurityUtil;
-import com.example.service.SmtpMailSender;
-import com.google.common.base.Functions;
-import com.google.common.collect.Iterables;
-import com.sun.org.apache.regexp.internal.RE;
+import com.example.service.EmailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationDetailsSource;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -37,8 +24,6 @@ public class AuthController extends BaseController{
     @Autowired
     private SecurityConfiguration securityConfig;
 
-    @Autowired
-    private SmtpMailSender smtpMailSender;
 
     @RequestMapping(path = "/getLoggedInUserDetails")
     public com.example.model.UserDetails getLoggedInUserDetails(HttpServletResponse httpServletResponse)throws Exception {
@@ -53,18 +38,6 @@ public class AuthController extends BaseController{
         return new com.example.model.UserDetails(userDetails.getUsername(), SecurityUtil.convertToRoles(userDetails.getAuthorities()));
     }
 
-    @RequestMapping(path="/forgotPassword", method = RequestMethod.POST)
-    public void sendForgotPasswordMail(HttpServletRequest request) {
-        String email = request.getParameter("username");
-        String subject = request.getParameter("subject");
-        String mailbody = request.getParameter("mailbody");
-        System.out.println("email " + email + " :: " + subject + " :: " + mailbody);
-        try {
-            smtpMailSender.send(email,subject,mailbody);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     @RequestMapping(path="/auth/logout", method = RequestMethod.POST)
     public void logout(HttpServletRequest request, HttpServletResponse response) {

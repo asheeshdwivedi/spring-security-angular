@@ -57,10 +57,7 @@ public class UserControllerTest extends AbstractControllerTest {
         System.out.println("status  " + status + " :: " + content);
 
         List<User> returnList = super.mapFromJson(content, List.class);
-        //UserDetails userDetails = super.mapFromJson(content, UserDetails.class);
         Assert.assertEquals("failure - expected HTTP status 200", 200, status);
-        //Assert.assertEquals("failure - expected entity.eail match", ADMIN_USER, userDetails.getUserName());
-
 
     }
 

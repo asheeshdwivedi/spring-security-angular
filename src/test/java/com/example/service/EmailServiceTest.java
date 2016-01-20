@@ -5,22 +5,26 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.mail.MessagingException;
+
 /**
  * Created by sathish.s on 19-01-2016.
  */
-public class SmtpMailSenderTest extends AbstractTest {
+public class EmailServiceTest extends AbstractTest {
     @Autowired
-    private SmtpMailSender smtpMailSender;
+    private EmailServiceImpl emailServiceImpl;
 
     @Before
-    public void setUp(){super.setUp();}
+    public void setUp() {
+        super.setUp();
+    }
 
     @Test
-    public void testSendingMail() {
-        String email = "sathish.257216@gmail.com";
+    public void testSendingMail() throws MessagingException {
+        String email = "xxx@gmail.com";
         String subject = "Forgot Password";
         String mailBody = "http://localhost:8080/#/login";
 
-        //smtpMailSender.send(email, subject, mailBody);
+        emailServiceImpl.send(email, subject, mailBody);
     }
 }

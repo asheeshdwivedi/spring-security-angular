@@ -25,4 +25,13 @@ public class BaseController {
         logger.error("< handleNoResultException");
         return new ResponseEntity<Exception>(HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Exception> handleException(Exception e) {
+        logger.error("> handleException");
+        logger.error("- Exception: ", e);
+        logger.error("< handleException");
+        return new ResponseEntity<Exception>(e,
+                HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

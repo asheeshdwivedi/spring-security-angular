@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
  * Created by asheeshdwivedi on 1/15/16.
  */
 @Service
-@Transactional(propagation= Propagation.SUPPORTS, readOnly=true)
-public class AuthorityServiceImpl implements AuthorityService{
+@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+public class AuthorityServiceImpl implements AuthorityService {
 
     @Autowired
     private AuthorityRepository authorityRepository;
@@ -35,13 +35,13 @@ public class AuthorityServiceImpl implements AuthorityService{
     }
 
     @Override
-    @Transactional(propagation=Propagation.REQUIRED, readOnly=false)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public Authority create(Authority entity) {
         return authorityRepository.save(entity);
     }
 
     @Override
-    @Transactional(propagation=Propagation.REQUIRED, readOnly=false)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void update(Authority entity) {
         authorityRepository.save(entity);
     }
