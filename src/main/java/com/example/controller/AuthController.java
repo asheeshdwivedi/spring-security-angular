@@ -2,9 +2,9 @@ package com.example.controller;
 
 import com.example.config.SecurityConfiguration;
 import com.example.security.SecurityUtil;
-import com.example.service.EmailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -26,16 +26,8 @@ public class AuthController extends BaseController{
 
 
     @RequestMapping(path = "/getLoggedInUserDetails")
-    public com.example.model.UserDetails getLoggedInUserDetails(HttpServletResponse httpServletResponse)throws Exception {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
-        if (principal instanceof String && ((String) principal).equals("anonymousUser")) {
-            httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-        }
-        UserDetails userDetails = (UserDetails) principal;
-
-
-        return new com.example.model.UserDetails(userDetails.getUsername(), SecurityUtil.convertToRoles(userDetails.getAuthorities()));
+    public com.example.model.UserDetails getLoggedInUserDetails(@AuthenticationPrincipal UserDetails user)throws Exception {
+        return new com.example.model.UserDetails(user.getUsername(), SecurityUtil.convertToRoles(user.getAuthorities()));
     }
 
 

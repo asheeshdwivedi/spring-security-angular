@@ -1,11 +1,11 @@
 package com.example.controller;
 
+import com.example.persistence.entity.User;
 import com.example.service.EmailService;
 import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -26,8 +26,13 @@ public class EmailController extends BaseController{
     public void sendMail(@PathVariable("email") String email , @RequestParam(
             value="wait"
             ,defaultValue = "false") boolean waitForAsyncResult) throws ExecutionException, InterruptedException {
-
         logger.info(">Send");
+
+        User user = userService.findByEmail(email);
+
+        if(user == null){
+            throw new RuntimeException("User with email " + email + " does not exit ");
+        }
 
         if(waitForAsyncResult){
             Future<Boolean> asyncResponse = emailService.sendAsyncWithResult(email , "Forget Password" ,"Test Mail");
