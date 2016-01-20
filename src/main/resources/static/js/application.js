@@ -60,14 +60,14 @@ springSecurityAngular.config(function ($stateProvider, $httpProvider, $provide ,
             protected:true
         })
         .state('forgotPassword', {
-            url: '/forgotPassword',
+            url: '/forgotPassword/:email',
             controller: 'forgotPassword',
             templateUrl: 'partials/forgotPassword.html',
             data: {pageTitle: 'Forgot Password'},
             protected:false
         })
         .state('resetPassword', {
-            url: '/resetPassword',
+            url: '/resetPassword/:email',
             controller: 'resetPassword',
             templateUrl: 'partials/resetPassword.html',
             data: {pageTitle: 'Reset Password'},
@@ -128,7 +128,7 @@ springSecurityAngular.config(function ($stateProvider, $httpProvider, $provide ,
     }]);
 
 }).run(function ($rootScope ,userService) {
-    $rootScope.$on('$stateChangeStart', function(event, next) {
+  /*  $rootScope.$on('$stateChangeStart', function(event, next) {
         console.log("next.protected  ",next.protected);
         if (next.protected) {
             if (!$rootScope.user) {
@@ -140,7 +140,7 @@ springSecurityAngular.config(function ($stateProvider, $httpProvider, $provide ,
             console.log("not logged in");
             event.preventDefault();
         }
-    });
+    });*/
     $rootScope.hasRole = function (role) {
         if ($rootScope.user === undefined) {
             return false;

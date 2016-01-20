@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,9 +28,16 @@ public class UserController extends BaseController{
         return userService.findAll();
     }
 
-    @RequestMapping(path = "/resetPassword", method = RequestMethod.POST)
-    public void getLoggedInUserDetails(HttpServletRequest request, HttpServletResponse response)throws Exception {
-        System.out.println("request"+request.getParameter("username"));
+    @RequestMapping(path = "/findByEmail/{email}")
+    public User findByEmail(@PathVariable("email") String email) {
+        return userService.findByEmail(email);
+    }
+
+    @RequestMapping(path = "/resetPassword/{email}", method = RequestMethod.POST)
+    public void resetPassword(@PathVariable("email") String email , @RequestParam(value="password") String password)throws Exception {
+        User user =  userService.findByEmail(email);
+        user.setPassword(password);
+        userService.update(user);
     }
 
 }

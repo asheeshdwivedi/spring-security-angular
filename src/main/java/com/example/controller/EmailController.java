@@ -27,7 +27,6 @@ public class EmailController extends BaseController{
             value="wait"
             ,defaultValue = "false") boolean waitForAsyncResult) throws ExecutionException, InterruptedException {
         logger.info(">Send");
-
         User user = userService.findByEmail(email);
 
         if(user == null){

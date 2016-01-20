@@ -84,36 +84,29 @@ springSecurityAngular.controller('createUser', ['$scope' , function($scope) {
  console.log("............");
 }]);
 
-springSecurityAngular.controller('forgotPassword', ['$scope' ,'messageService' , 'authService', function($scope, messageService, authService) {
-    $scope.forgotPassword = function (){
-        authService.forgotPassword($scope.username)
-            .then(function(){
-                   messageService.error("Mail Sent");
-                })
-            .catch(function(data){
-                    messageService.error("Not able to send mail");
-                });
+springSecurityAngular.controller('forgotPassword', ['$scope','$stateParams' ,'messageService' , 'emailService' ,'userService' , function($scope,$stateParams,messageService, emailService ,userService) {
+    $scope.email = $stateParams.email;
 
+    $scope.sendResetPasswordLink = function (){
+        emailService.send(true ,$scope.email)
+            .then(function(){
+                messageService.info("MAIL_SEND_FAIL" , "Check your email for a link to reset your password. If it doesn't appear within a few minutes, check your spam folder.");
+        }).catch(function(data){
+            messageService.error("MAIL_SEND_FAIL" , "Could able to send message, sorry.");
+        });
     }
 }]);
 
-springSecurityAngular.controller('resetPassword', ['$scope','$state' ,'messageService' , 'authService', function($scope, $state, messageService, authService) {
+springSecurityAngular.controller('resetPassword', ['$scope','$state' ,'$stateParams','messageService' , 'userService', function($scope, $state, $stateParams , messageService, userService) {
+
     $scope.resetPassword= function () {
-        console.log("............",    getUrlVars()["email"]);
-        authService.resetPassword(getUrlVars()["email"], $scope.password, $scope.confirmPass)
+        userService.resetPassword($stateParams.email, $scope.password)
                     .then(function(){
                            $state.go("login");
                         })
                     .catch(function(data){
                             messageService.error("Reset Password failed");
                         });
-    }
-   var getUrlVars = function() {
-       var vars = {};
-       var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,
-       function(m,key,value) {
-         vars[key] = value;
-       });
-       return vars;
-     }
+        }
+
 }]);

@@ -1,4 +1,3 @@
-'use strict';
 
 springSecurityAngular.service('messageService', ['$rootScope', function ($rootScope) {
 
