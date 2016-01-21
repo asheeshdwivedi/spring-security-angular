@@ -1,0 +1,4 @@
+<form name="emailForm" lass="form-horizontal" novalidate>
+    <input id="email" ng-model="email" name="email" type="email" class="form-control" required placeholder="Email" focus="true"/>
+    <p ng-show="emailForm.email.$invalid && !emailForm.email.$pristine" class="help-block">Enter a valid email.</p>
+</form>

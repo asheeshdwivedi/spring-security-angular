@@ -1,7 +1,7 @@
 springSecurityAngular.controller('authController', ['$scope' ,'$state','messageService' , 'authService', function($scope ,$state ,messageService ,authService) {
 
     $scope.login = function (){
-        authService.login($scope.username, $scope.password)
+        authService.login($scope.email, $scope.password)
             .then(function(){
                    $state.go("home");
                 })
