@@ -6,11 +6,7 @@
 
 	<div class="col-md-6">
 		<form name="loginForm" class="form-horizontal" novalidate>
-			<div class="form-group" ng-class="{true:'has-error' , false : 'has-success'} [loginForm.email.$invalid && !loginForm.email.$pristine]">
-				<div class="col-sm-9">
-					<email-form></email-form>
-				</div>
-			</div>
+			<email-form></email-form>
 			<div class="form-group">
 				<div class="col-sm-9">
 					<input id="password" ng-model="password" type="password" class="form-control" required  placeholder="Password"/>
