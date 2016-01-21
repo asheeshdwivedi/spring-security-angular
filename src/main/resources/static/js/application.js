@@ -33,12 +33,12 @@ springSecurityAngular.config(function ($stateProvider, $httpProvider, $provide ,
             templateUrl: 'partials/login.html',
             controller: 'authController',
             resolve: {
-                clear: ['$rootScope' ,'authService' , function($rootScope , authService){
+                clear: ['$rootScope' ,'authService','propertiesConstant' , function($rootScope , authService,propertiesConstant){
                     authService.logout()
                         .then(function(){
                             delete $rootScope.user;
                         }).catch(function(data){
-                        messageService.error("LOGOUT_FAILURE", "We were unable to log you out, please try again.");
+                         messageService.error(propertiesConstant.LOGOUT_FAILURE_CODE, propertiesConstant.LOGOUT_FAILURE_MESSAGE);
                     });
                 }]
             },
@@ -74,7 +74,7 @@ springSecurityAngular.config(function ($stateProvider, $httpProvider, $provide ,
             protected:false
         });
 
-    $httpProvider.interceptors.push(function ($q, $rootScope , messageService ,$injector) {
+    $httpProvider.interceptors.push(function ($q, $rootScope , propertiesConstant,messageService ,$injector) {
             return {
                 'request': function (request) {
                     messageService.clearError();
@@ -104,7 +104,7 @@ springSecurityAngular.config(function ($stateProvider, $httpProvider, $provide ,
                         }
                         default :
                         {
-                            messageService.error("UNKNOWN_ERROR", "An error has occurred, please try again.");
+                           messageService.error(propertiesConstant.UNKNOWN_ERROR_CODE, propertiesConstant.UNKNOWN_ERROR_MESSAGE);
 
                             break;
                         }

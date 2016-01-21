@@ -1,4 +1,4 @@
-springSecurityAngular.controller('authController', ['$scope' ,'$state','messageService' , 'authService', function($scope ,$state ,messageService ,authService) {
+springSecurityAngular.controller('authController', ['$scope' ,'$state','messageService' ,'propertiesConstant', 'authService', function($scope ,$state ,messageService ,propertiesConstant,authService) {
 
     $scope.login = function (){
         authService.login($scope.email, $scope.password)
@@ -6,7 +6,7 @@ springSecurityAngular.controller('authController', ['$scope' ,'$state','messageS
                    $state.go("home");
                 })
             .catch(function(data){
-                    messageService.error("LOGIN_FAILURE", "The email and password you entered don't match");
+                    messageService.error(propertiesConstant.LOGIN_FAILURE_CODE, propertiesConstant.LOGIN_FAILURE_MESSAGE);
                 });
 
     }
@@ -84,20 +84,20 @@ springSecurityAngular.controller('createUser', ['$scope' , function($scope) {
  console.log("............");
 }]);
 
-springSecurityAngular.controller('forgotPassword', ['$scope','$stateParams' ,'messageService' , 'emailService' ,'userService' , function($scope,$stateParams,messageService, emailService ,userService) {
+springSecurityAngular.controller('forgotPassword', ['$scope','$stateParams' ,'propertiesConstant','messageService' , 'emailService' ,'userService' , function($scope,$stateParams,propertiesConstant,messageService, emailService ,userService) {
     $scope.email = $stateParams.email;
 
     $scope.sendResetPasswordLink = function (){
         emailService.send(true ,$scope.email)
             .then(function(){
-                messageService.info("MAIL_SEND_FAIL" , "Check your email for a link to reset your password. If it doesn't appear within a few minutes, check your spam folder.");
+                messageService.info(propertiesConstant.MAIL_SEND_FAIL_CODE , propertiesConstant.EMAIL_LINK_MESSAGE);
         }).catch(function(data){
-            messageService.error("MAIL_SEND_FAIL" , "Could able to send message, sorry.");
+             messageService.error(propertiesConstant.MAIL_SEND_FAIL_CODE , propertiesConstant.EMAIL_NOT_SENT_MESSAGE);
         });
     }
 }]);
 
-springSecurityAngular.controller('resetPassword', ['$scope','$state' ,'$stateParams','messageService' , 'userService', function($scope, $state, $stateParams , messageService, userService) {
+springSecurityAngular.controller('resetPassword', ['$scope','$state' ,'$stateParams','propertiesConstant','messageService' , 'userService', function($scope, $state, $stateParams ,propertiesConstant, messageService, userService) {
 
     $scope.resetPassword= function () {
         userService.resetPassword($stateParams.email, $scope.password)
@@ -105,7 +105,7 @@ springSecurityAngular.controller('resetPassword', ['$scope','$state' ,'$statePar
                            $state.go("login");
                         })
                     .catch(function(data){
-                            messageService.error("Reset_Password_failed" ,"Could not able to reset password, Sorry");
+                             messageService.error(propertiesConstant.RESET_PASSWORD_FAILED_CODE ,propertiesConstant.RESET_PASSWORD_FAILED_MESSAGE);
                         });
         }
 
