@@ -1,16 +1,10 @@
 package com.example.controller;
 
 import com.example.persistence.entity.User;
-import com.example.security.SecurityUtil;
 import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,9 +27,20 @@ public class UserController extends BaseController{
         return userService.findByEmail(email);
     }
 
-    @RequestMapping(path = "/resetPassword/{email}", method = RequestMethod.POST)
-    public void resetPassword(@PathVariable("email") String email , @RequestParam(value="password") String password)throws Exception {
-        User user =  userService.findByEmail(email);
+    @RequestMapping(path = "/resetPassword/{key}", method = RequestMethod.POST)
+    public void resetPassword(@PathVariable("key") String email , @RequestParam(value="password") String password)throws Exception {
+        String[] parameter = email.split("\\|");
+        String mailId = parameter[0];
+        long expiryDate = 0;
+        try {
+            expiryDate = Long.parseLong(parameter[1], 10);
+        } catch (NumberFormatException e) {
+            throw e;
+        }
+        if(expiryDate < new Date().getTime()) {
+            throw new RuntimeException("Forgot password link expired.");
+        }
+        User user =  userService.findByEmail(mailId);
         user.setPassword(password);
         userService.update(user);
     }
