@@ -11,8 +11,8 @@ springSecurityAngular.service('emailService', ['$http', "$q" ,'propertiesConstan
             .success(function (data, status, headers, config) {
                 d.resolve(data);
             })
-            .error(function () {
-                d.reject();
+            .error(function (data) {
+                d.reject(data);
             })
         return d.promise;
     }

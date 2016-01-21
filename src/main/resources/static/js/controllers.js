@@ -92,7 +92,7 @@ springSecurityAngular.controller('forgotPassword', ['$scope','$stateParams' ,'pr
             .then(function(){
                 messageService.info(propertiesConstant.MAIL_SEND_FAIL_CODE , propertiesConstant.EMAIL_LINK_MESSAGE);
         }).catch(function(data){
-             messageService.error(propertiesConstant.MAIL_SEND_FAIL_CODE , propertiesConstant.EMAIL_NOT_SENT_MESSAGE);
+             messageService.error(propertiesConstant.MAIL_SEND_FAIL_CODE, data.message);
         });
     }
 }]);
@@ -105,7 +105,7 @@ springSecurityAngular.controller('resetPassword', ['$scope','$state' ,'$statePar
                            $state.go("login");
                         })
                     .catch(function(data){
-                             messageService.error(propertiesConstant.RESET_PASSWORD_FAILED_CODE ,propertiesConstant.RESET_PASSWORD_FAILED_MESSAGE);
+                             messageService.error(propertiesConstant.RESET_PASSWORD_FAILED_CODE, data.message);
                         });
         }
 
