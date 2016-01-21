@@ -3,7 +3,6 @@ package com.example.security;
 import com.example.persistence.entity.Authority;
 import com.google.common.base.Functions;
 import com.google.common.collect.Iterables;
-import org.springframework.cglib.core.CollectionUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 

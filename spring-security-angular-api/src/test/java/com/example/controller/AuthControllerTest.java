@@ -1,29 +1,18 @@
 package com.example.controller;
 
 import com.example.AbstractControllerTest;
-import com.example.AbstractTest;
 import com.example.config.SecurityConfiguration;
 import com.example.model.UserDetails;
-import com.example.persistence.entity.User;
-import com.example.security.SecurityUtil;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by asheeshdwivedi on 1/18/16.

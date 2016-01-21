@@ -2,7 +2,6 @@ package com.example.service;
 
 import com.example.persistence.entity.Authority;
 import com.example.persistence.repositiories.AuthorityRepository;
-import com.example.persistence.repositiories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;

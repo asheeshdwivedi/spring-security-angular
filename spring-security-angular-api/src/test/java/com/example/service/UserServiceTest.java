@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.AbstractTest;
-import com.example.model.UserDetails;
 import com.example.persistence.entity.Authority;
 import com.example.persistence.entity.User;
 import com.google.common.collect.Sets;
