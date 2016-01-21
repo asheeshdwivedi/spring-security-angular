@@ -25,8 +25,8 @@ springSecurityAngular.config(function ($stateProvider, $httpProvider, $provide ,
             url: '/login',
             controller: 'authController',
             templateUrl: 'partials/login.html',
-            data: {pageTitle: 'Login'}
-
+            data: {pageTitle: 'Login'},
+            protected:false
         })
         .state('logout' ,{
             url: '/logout',

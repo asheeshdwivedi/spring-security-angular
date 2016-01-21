@@ -33,9 +33,9 @@ springSecurityAngular.controller('manageUser', ['$scope' ,'userService' , functi
                { field: 'firstName'},
                { field: 'lastName'},
                { field: 'createdBy'},
-               { field: 'createdAt'},
-               { field: 'updatedBy'},
-               { field: 'updatedAt'},
+               { field: 'createdAt',cellFilter: 'date:\'MM/dd/yyyy\''},
+               { field: 'updatedBy'},
+               { field: 'updatedAt',cellFilter: 'date:\'MM/dd/yyyy\''},
            ],
            enableGridMenu: true,
 
