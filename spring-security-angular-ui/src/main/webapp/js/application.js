@@ -74,6 +74,7 @@ springSecurityAngular.config(function ($stateProvider, $httpProvider, $provide ,
             protected:false
         });
 
+    $httpProvider.defaults.withCredentials = true;
     $httpProvider.interceptors.push(function ($q, $rootScope , propertiesConstant,messageService ,$injector) {
             return {
                 'request': function (request) {
